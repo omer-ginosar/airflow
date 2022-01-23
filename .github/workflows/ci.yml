@@ -1313,10 +1313,13 @@ ${{ hashFiles('.pre-commit-config.yaml') }}"
       - build-info
       - constraints
       - docs
+    # Temporary disable pushing cache for non-main branch as some of our v2-2 packages lack write access
+    # For GitHub actions
+    if: "false"
     # Only run it for direct pushes and scheduled builds
-    if: >
-      (github.event_name == 'push' || github.event_name == 'schedule')
-      && github.repository == 'apache/airflow'
+    #    if: >
+    #      (github.event_name == 'push' || github.event_name == 'schedule')
+    #      && github.repository == 'apache/airflow'
     strategy:
       matrix:
         python-version: ${{ fromJson(needs.build-info.outputs.pythonVersions) }}
